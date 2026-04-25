@@ -97,6 +97,7 @@
         --blue: #7aa2f7;
         --purple: #bb9af7;
         --pink: #f7768e;
+        --gold: #e0af68;
         --keyword: #c792ea;
         --string: #a3e88a;
         --comment: #8597a3;
@@ -492,6 +493,9 @@
       .proj.inbx {
         --c: var(--pink);
       }
+      .proj.hodl {
+        --c: var(--gold);
+      }
       .proj-head {
         display: flex;
         align-items: baseline;
@@ -609,6 +613,8 @@
         <a href="https://hjkl.kryptic.sh/">hjkl</a>
         <span class="sep">·</span>
         <a href="https://inbx.kryptic.sh/">inbx</a>
+        <span class="sep">·</span>
+        <a href="https://hodl.kryptic.sh/">hodl</a>
       </div>
     </nav>
 
@@ -628,7 +634,7 @@
     <main class="wrap">
       <header class="hero">
         <div class="badges">
-          <span class="badge live">● 4 projects</span>
+          <span class="badge live">● 5 projects</span>
           <span class="badge">MIT</span>
           <span class="badge">Rust</span>
         </div>
@@ -764,6 +770,29 @@
               >
             </div>
           </article>
+
+          <article class="proj hodl">
+            <div class="proj-head">
+              <span class="proj-name">hodl</span>
+              <span class="proj-status">early</span>
+            </div>
+            <p class="proj-tag">Light crypto wallet, TUI.</p>
+            <p class="proj-desc">
+              ratatui UI, BIP-39 seed, BIP-32/44 derivation. Multi-chain
+              (Bitcoin, Ethereum). Light client — talks to public or self-hosted
+              RPC. Local keys, encrypted at rest. Never phones home.
+            </p>
+            <div class="proj-links">
+              <a href="https://hodl.kryptic.sh/">site →</a>
+              <a
+                class="muted"
+                href="https://github.com/kryptic-sh/hodl"
+                target="_blank"
+                rel="noopener"
+                >github ↗</a
+              >
+            </div>
+          </article>
         </div>
       </section>
 
@@ -831,7 +860,8 @@
           <a href="https://sqeel.kryptic.sh/">sqeel</a> ·
           <a href="https://buffr.kryptic.sh/">buffr</a> ·
           <a href="https://hjkl.kryptic.sh/">hjkl</a> ·
-          <a href="https://inbx.kryptic.sh/">inbx</a>
+          <a href="https://inbx.kryptic.sh/">inbx</a> ·
+          <a href="https://hodl.kryptic.sh/">hodl</a>
         </div>
       </div>
     </footer>
