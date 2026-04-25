@@ -161,6 +161,36 @@
         padding: 0 24px;
       }
 
+      .siblings {
+        border-bottom: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .siblings-inner {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 8px 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--fg-muted);
+        align-items: center;
+      }
+      .siblings-inner a {
+        color: var(--fg-muted);
+      }
+      .siblings-inner a:hover {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .siblings-inner .current {
+        color: var(--accent);
+      }
+      .siblings-inner .sep {
+        color: var(--border-strong);
+      }
+
       /* nav */
       nav.top {
         display: flex;
@@ -568,6 +598,20 @@
     </style>
   </head>
   <body>
+    <nav class="siblings">
+      <div class="siblings-inner">
+        <span class="current">kryptic</span>
+        <span class="sep">·</span>
+        <a href="https://sqeel.kryptic.sh/">sqeel</a>
+        <span class="sep">·</span>
+        <a href="https://buffr.kryptic.sh/">buffr</a>
+        <span class="sep">·</span>
+        <a href="https://hjkl.kryptic.sh/">hjkl</a>
+        <span class="sep">·</span>
+        <a href="https://inbx.kryptic.sh/">inbx</a>
+      </div>
+    </nav>
+
     <nav class="top">
       <div class="brand">
         <span class="prompt">$</span> kryptic<span class="cursor"></span>
