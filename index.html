@@ -416,8 +416,13 @@
       /* projects */
       .projects {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 16px;
+      }
+      @media (max-width: 640px) {
+        .projects {
+          grid-template-columns: 1fr;
+        }
       }
       .proj {
         background: var(--panel);
@@ -579,7 +584,7 @@
     <main class="wrap">
       <header class="hero">
         <div class="badges">
-          <span class="badge live">● 3 projects</span>
+          <span class="badge live">● 4 projects</span>
           <span class="badge">MIT</span>
           <span class="badge">Rust</span>
         </div>
