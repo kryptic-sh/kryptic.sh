@@ -93,20 +93,23 @@ jobs:
       - name: Assemble site
         run: |
           set -euo pipefail
-          rm -rf site
-          mkdir -p site
-          # Whole repo root is the site (CNAME, manifest, icons, etc).
-          cp -a . site/
-          rm -rf site/.git site/.github site/site
-          # Confirm CNAME made it through
-          [ -f site/CNAME ] || { echo "::error::missing CNAME"; exit 1; }
-          touch site/.nojekyll
-          ls -la site/
+          # Build into /tmp to dodge the cp-into-itself trap.
+          site=/tmp/site
+          rm -rf "$site"
+          mkdir -p "$site"
+          rsync -a \
+            --exclude=.git \
+            --exclude=.github \
+            --exclude=.gitignore \
+            ./ "$site/"
+          [ -f "$site/CNAME" ] || { echo "::error::missing CNAME"; exit 1; }
+          touch "$site/.nojekyll"
+          ls -la "$site/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: site
+          path: /tmp/site
 
   deploy:
     name: deploy to GitHub Pages
