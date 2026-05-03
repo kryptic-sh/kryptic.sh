@@ -426,20 +426,8 @@
       .dim {
         color: var(--fg-muted);
       }
-      .c-green {
-        color: var(--green);
-      }
-      .c-blue {
-        color: var(--blue);
-      }
-      .c-purple {
-        color: var(--purple);
-      }
-      .c-pink {
-        color: var(--pink);
-      }
-      .c-teal {
-        color: var(--teal);
+      .c-app {
+        color: var(--accent);
       }
 
       /* sections */
@@ -506,21 +494,6 @@
       .proj:hover {
         transform: translateY(-2px);
         border-color: var(--c, var(--accent));
-      }
-      .proj.sqeel {
-        --c: var(--green);
-      }
-      .proj.buffr {
-        --c: var(--blue);
-      }
-      .proj.hjkl {
-        --c: var(--purple);
-      }
-      .proj.inbx {
-        --c: var(--pink);
-      }
-      .proj.hodl {
-        --c: var(--teal);
       }
       .proj-head {
         display: flex;
@@ -695,11 +668,11 @@
           <pre><span class="ok">$</span> ls -la ~/kryptic
 <span class="cm"># native tools, one ethos, many surfaces</span>
 
-<span class="dim">drwx</span>  <span class="c-green">sqeel/</span>   <span class="dim">vim-native SQL client · TUI + GUI</span>    <span class="ok">__VER_SQEEL__</span>
-<span class="dim">drwx</span>  <span class="c-blue">buffr/</span>   <span class="dim">vim-inspired browser · Rust + CEF</span>    <span class="ok">__VER_BUFFR__</span>
-<span class="dim">drwx</span>  <span class="c-purple">hjkl/</span>    <span class="dim">modal editor + vim engine · Rust</span>     <span class="ok">__VER_HJKL__</span>
-<span class="dim">drwx</span>  <span class="c-pink">inbx/</span>    <span class="dim">modal-vim email client · IMAP/JMAP</span>   <span class="dim">__VER_INBX__</span>
-<span class="dim">drwx</span>  <span class="c-teal">hodl/</span>    <span class="dim">light crypto wallet · TUI + ratatui</span>  <span class="dim">__VER_HODL__</span>
+<span class="dim">drwx</span>  <span class="c-app">sqeel/</span>   <span class="dim">vim-native SQL client · TUI + GUI</span>    <span class="ok">__VER_SQEEL__</span>
+<span class="dim">drwx</span>  <span class="c-app">buffr/</span>   <span class="dim">vim-inspired browser · Rust + CEF</span>    <span class="ok">__VER_BUFFR__</span>
+<span class="dim">drwx</span>  <span class="c-app">hjkl/</span>    <span class="dim">modal editor + vim engine · Rust</span>     <span class="ok">__VER_HJKL__</span>
+<span class="dim">drwx</span>  <span class="c-app">inbx/</span>    <span class="dim">modal-vim email client · IMAP/JMAP</span>   <span class="ok">__VER_INBX__</span>
+<span class="dim">drwx</span>  <span class="c-app">hodl/</span>    <span class="dim">light crypto wallet · TUI + ratatui</span>  <span class="ok">__VER_HODL__</span>
 
 <span class="ok">$</span> cat principles.txt
 <span class="cm"># native rust · modal editing · mouse + keyboard · zero telemetry</span></pre>
