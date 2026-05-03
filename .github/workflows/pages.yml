@@ -57,8 +57,7 @@ jobs:
           sqeel=$(latest_tag sqeel v)
           buffr=$(latest_tag buffr v)
           hjkl=$(latest_tag hjkl v)
-          # inbx uses prefixed tags (inbx-v0.0.1), not bare v0.0.1.
-          inbx=$(latest_tag inbx inbx-v)
+          inbx=$(latest_tag inbx v)
           hodl=$(latest_tag hodl v)
 
           : "${sqeel:?could not resolve sqeel tag}"
