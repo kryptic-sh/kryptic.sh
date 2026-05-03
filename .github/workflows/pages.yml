@@ -1,0 +1,120 @@
+name: pages
+
+# GitHub Pages deploy for the kryptic.sh org landing page. The site
+# advertises five sibling projects (sqeel, buffr, hjkl, inbx, hodl)
+# with their currently-released versions. Each version slot uses an
+# `__VER_<NAME>__` placeholder which this workflow substitutes with
+# the latest matching git tag fetched via the GitHub API.
+#
+# Triggers:
+#   - daily cron (06:00 UTC) → catches releases cut elsewhere
+#   - workflow_dispatch       → manual rebuild after a release
+#   - main + index.html edits → preserves dev-time edits + version pass
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - '.github/workflows/pages.yml'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build site
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Resolve latest tag for each project
+        id: tags
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # latest_tag <repo> <prefix>
+          # Returns the highest semver-sorted tag matching `<prefix>*`
+          # with the prefix stripped. Empty if no tags match.
+          latest_tag() {
+            local repo="$1" prefix="$2"
+            gh api "repos/kryptic-sh/$repo/git/matching-refs/tags/$prefix" \
+              --jq '.[].ref' \
+              | sed "s|refs/tags/$prefix||" \
+              | sort -V \
+              | tail -1
+          }
+          sqeel=$(latest_tag sqeel v)
+          buffr=$(latest_tag buffr v)
+          hjkl=$(latest_tag hjkl v)
+          # inbx uses prefixed tags (inbx-v0.0.1), not bare v0.0.1.
+          inbx=$(latest_tag inbx inbx-v)
+          hodl=$(latest_tag hodl v)
+
+          : "${sqeel:?could not resolve sqeel tag}"
+          : "${buffr:?could not resolve buffr tag}"
+          : "${hjkl:?could not resolve hjkl tag}"
+          : "${inbx:?could not resolve inbx tag}"
+          : "${hodl:?could not resolve hodl tag}"
+
+          echo "sqeel=$sqeel" >> "$GITHUB_OUTPUT"
+          echo "buffr=$buffr" >> "$GITHUB_OUTPUT"
+          echo "hjkl=$hjkl"   >> "$GITHUB_OUTPUT"
+          echo "inbx=$inbx"   >> "$GITHUB_OUTPUT"
+          echo "hodl=$hodl"   >> "$GITHUB_OUTPUT"
+          echo "Resolved: sqeel=$sqeel buffr=$buffr hjkl=$hjkl inbx=$inbx hodl=$hodl"
+
+      - name: Substitute version placeholders
+        run: |
+          set -euo pipefail
+          sed -i \
+            -e "s/__VER_SQEEL__/${{ steps.tags.outputs.sqeel }}/g" \
+            -e "s/__VER_BUFFR__/${{ steps.tags.outputs.buffr }}/g" \
+            -e "s/__VER_HJKL__/${{ steps.tags.outputs.hjkl }}/g" \
+            -e "s/__VER_INBX__/${{ steps.tags.outputs.inbx }}/g" \
+            -e "s/__VER_HODL__/${{ steps.tags.outputs.hodl }}/g" \
+            index.html
+          if grep -q "__VER_" index.html; then
+            echo "::error::Stale __VER_*__ markers remain in index.html"
+            grep -n "__VER_" index.html
+            exit 1
+          fi
+
+      - name: Assemble site
+        run: |
+          set -euo pipefail
+          rm -rf site
+          mkdir -p site
+          # Whole repo root is the site (CNAME, manifest, icons, etc).
+          cp -a . site/
+          rm -rf site/.git site/.github site/site
+          # Confirm CNAME made it through
+          [ -f site/CNAME ] || { echo "::error::missing CNAME"; exit 1; }
+          touch site/.nojekyll
+          ls -la site/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+  deploy:
+    name: deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
