@@ -59,19 +59,25 @@ jobs:
           hjkl=$(latest_tag hjkl v)
           inbx=$(latest_tag inbx v)
           hodl=$(latest_tag hodl v)
+          pikr=$(latest_tag pikr v)
 
           : "${sqeel:?could not resolve sqeel tag}"
           : "${buffr:?could not resolve buffr tag}"
           : "${hjkl:?could not resolve hjkl tag}"
           : "${inbx:?could not resolve inbx tag}"
           : "${hodl:?could not resolve hodl tag}"
+          # pikr has no tagged releases yet — fall back to a pre-1.0 placeholder
+          # so the substitute step doesn't fail. Drop the default once pikr
+          # cuts v0.1.0.
+          : "${pikr:=0.0.0-pre}"
 
           echo "sqeel=$sqeel" >> "$GITHUB_OUTPUT"
           echo "buffr=$buffr" >> "$GITHUB_OUTPUT"
           echo "hjkl=$hjkl"   >> "$GITHUB_OUTPUT"
           echo "inbx=$inbx"   >> "$GITHUB_OUTPUT"
           echo "hodl=$hodl"   >> "$GITHUB_OUTPUT"
-          echo "Resolved: sqeel=$sqeel buffr=$buffr hjkl=$hjkl inbx=$inbx hodl=$hodl"
+          echo "pikr=$pikr"   >> "$GITHUB_OUTPUT"
+          echo "Resolved: sqeel=$sqeel buffr=$buffr hjkl=$hjkl inbx=$inbx hodl=$hodl pikr=$pikr"
 
       - name: Substitute version placeholders
         run: |
@@ -82,6 +88,7 @@ jobs:
             -e "s/__VER_HJKL__/${{ steps.tags.outputs.hjkl }}/g" \
             -e "s/__VER_INBX__/${{ steps.tags.outputs.inbx }}/g" \
             -e "s/__VER_HODL__/${{ steps.tags.outputs.hodl }}/g" \
+            -e "s/__VER_PIKR__/${{ steps.tags.outputs.pikr }}/g" \
             index.html
           if grep -q "__VER_" index.html; then
             echo "::error::Stale __VER_*__ markers remain in index.html"

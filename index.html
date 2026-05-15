@@ -11,7 +11,7 @@
     />
     <meta
       name="keywords"
-      content="kryptic, vim, rust, terminal, tui, sql client, browser, modal editor, sqeel, buffr, hjkl"
+      content="kryptic, vim, rust, terminal, tui, sql client, browser, modal editor, picker, launcher, rofi, sqeel, buffr, hjkl, inbx, hodl, pikr"
     />
     <link rel="canonical" href="https://www.kryptic.sh/" />
     <meta name="robots" content="index, follow" />
@@ -102,6 +102,7 @@
         --pink: #f7768e;
         --gold: #e0af68;
         --teal: #73daca;
+        --magenta: #ff79c6;
         --keyword: #c792ea;
         --string: #a3e88a;
         --comment: #8597a3;
@@ -445,6 +446,9 @@
       .c-teal {
         color: var(--teal);
       }
+      .c-magenta {
+        color: var(--magenta);
+      }
 
       /* sections */
       section {
@@ -525,6 +529,9 @@
       }
       .proj.hodl {
         --c: var(--teal);
+      }
+      .proj.pikr {
+        --c: var(--magenta);
       }
       .proj-head {
         display: flex;
@@ -704,6 +711,7 @@
 <span class="dim">drwx</span>  <span class="c-purple">hjkl/</span>    <span class="dim">modal editor + vim engine · Rust</span>     <span class="ok">__VER_HJKL__</span>
 <span class="dim">drwx</span>  <span class="c-pink">inbx/</span>    <span class="dim">email · IMAP/JMAP/Graph + CalDAV</span>     <span class="ok">__VER_INBX__</span>
 <span class="dim">drwx</span>  <span class="c-teal">hodl/</span>    <span class="dim">light crypto wallet · TUI + ratatui</span>  <span class="ok">__VER_HODL__</span>
+<span class="dim">drwx</span>  <span class="c-magenta">pikr/</span>    <span class="dim">vim-modal picker · rofi replacement</span>  <span class="ok">__VER_PIKR__</span>
 
 <span class="ok">$</span> cat principles.txt
 <span class="cm"># native rust · modal editing · mouse + keyboard · zero telemetry</span></pre>
@@ -833,6 +841,31 @@
               <a
                 class="muted"
                 href="https://github.com/kryptic-sh/hodl"
+                target="_blank"
+                rel="noopener"
+                >github ↗</a
+              >
+            </div>
+          </article>
+
+          <article class="proj pikr">
+            <div class="proj-head">
+              <span class="proj-name">pikr</span>
+              <span class="proj-status">__VER_PIKR__</span>
+            </div>
+            <p class="proj-tag">Vim-modal picker / launcher.</p>
+            <p class="proj-desc">
+              Rofi replacement with hjkl keys. dmenu over stdin, XDG
+              <code>.desktop</code> drun, <code>$PATH</code> run. Floem-rendered
+              with Wayland layer-shell incoming via a winit fork. Normal/insert
+              modal split, vim motions, fuzzy match via nucleo. Single binary,
+              no daemon, no telemetry.
+            </p>
+            <div class="proj-links">
+              <a href="https://pikr.kryptic.sh/">site →</a>
+              <a
+                class="muted"
+                href="https://github.com/kryptic-sh/pikr"
                 target="_blank"
                 rel="noopener"
                 >github ↗</a
