@@ -699,10 +699,10 @@
           <pre><span class="ok">$</span> ls -la ~/kryptic
 <span class="cm"># native tools, one ethos, many surfaces</span>
 
-<span class="dim">drwx</span>  <span class="c-green">sqeel/</span>   <span class="dim">vim-native SQL client · TUI + GUI</span>    <span class="ok">__VER_SQEEL__</span>
-<span class="dim">drwx</span>  <span class="c-blue">buffr/</span>   <span class="dim">vim-inspired browser · Rust + CEF</span>    <span class="ok">__VER_BUFFR__</span>
+<span class="dim">drwx</span>  <span class="c-green">sqeel/</span>   <span class="dim">SQL client · MySQL/PG/SQLite/DuckDB</span>  <span class="ok">__VER_SQEEL__</span>
+<span class="dim">drwx</span>  <span class="c-blue">buffr/</span>   <span class="dim">vim browser · CEF + blink-cdp</span>       <span class="ok">__VER_BUFFR__</span>
 <span class="dim">drwx</span>  <span class="c-purple">hjkl/</span>    <span class="dim">modal editor + vim engine · Rust</span>     <span class="ok">__VER_HJKL__</span>
-<span class="dim">drwx</span>  <span class="c-pink">inbx/</span>    <span class="dim">modal-vim email client · IMAP/JMAP</span>   <span class="ok">__VER_INBX__</span>
+<span class="dim">drwx</span>  <span class="c-pink">inbx/</span>    <span class="dim">email · IMAP/JMAP/Graph + CalDAV</span>     <span class="ok">__VER_INBX__</span>
 <span class="dim">drwx</span>  <span class="c-teal">hodl/</span>    <span class="dim">light crypto wallet · TUI + ratatui</span>  <span class="ok">__VER_HODL__</span>
 
 <span class="ok">$</span> cat principles.txt
@@ -721,9 +721,10 @@
             </div>
             <p class="proj-tag">Vim-native SQL client.</p>
             <p class="proj-desc">
-              MySQL · Postgres · SQLite. Terminal (ratatui) and native GUI
-              (iced) from one core. Per-file TOML connections, sqls LSP,
-              tree-sitter highlighting.
+              MySQL · Postgres · SQLite · DuckDB (CSV / Parquet queries out of
+              the box). Terminal (ratatui) and native GUI (iced) from one core.
+              Per-file TOML connections, OS-keyring credentials, sqls LSP,
+              tree-sitter highlighting, query-history fuzzy picker.
             </p>
             <div class="proj-links">
               <a href="https://sqeel.kryptic.sh/">site →</a>
@@ -744,10 +745,11 @@
             </div>
             <p class="proj-tag">Vim-inspired browser.</p>
             <p class="proj-desc">
-              Native, GPU-accelerated. Rust + CEF — Chromium rendering without
-              an Electron-shaped layer above it. Multi-tab; OAuth-capable popup
-              windows; two-finger swipe history nav; modal browsing, hint-mode,
-              ex-style command palette.
+              Native, GPU-accelerated. Two backends behind one
+              <code>BrowserEngine</code> trait — CEF for legacy parity,
+              blink-cdp (headless Chromium over CDP) for sandboxed isolation;
+              per-domain rules pick the engine per tab. Modal browsing,
+              hint-mode, ex-style command palette, find-in-page, IME, PiP.
             </p>
             <div class="proj-links">
               <a href="https://buffr.kryptic.sh/">site →</a>
@@ -769,9 +771,12 @@
             <p class="proj-tag">Modal editor + vim engine.</p>
             <p class="proj-desc">
               Vim-modal terminal editor — multi-buffer, fuzzy file/buffer/grep
-              pickers, runtime tree-sitter grammar loading via hjkl-bonsai (5.1
-              MB binary). Same engine, rope buffer, and primitives power sqeel,
-              buffr, and inbx.
+              pickers, lazygit-adjacent
+              <code>&lt;leader&gt;g</code> git surface, runtime tree-sitter
+              grammar loading via hjkl-bonsai 0.7, backend-agnostic
+              <code>hjkl-theme</code> stack, marks / macros / dot-repeat /
+              <code>@:</code> last-ex repeat. Same vim FSM
+              (<code>hjkl-vim</code>) drives sqeel, buffr, and inbx.
             </p>
             <div class="proj-links">
               <a href="https://hjkl.kryptic.sh/">site →</a>
@@ -793,7 +798,10 @@
             <p class="proj-tag">Modal-vim email client.</p>
             <p class="proj-desc">
               IMAP/SMTP, Gmail XOAUTH2, Microsoft Graph, JMAP — one client,
-              every inbox. Maildir + SQLite + tantivy. Composer powered by hjkl.
+              every inbox. Maildir + SQLite (WAL) + tantivy. Multi-folder sync
+              with optional <code>inbx-sync</code> IPC daemon. CalDAV + CardDAV
+              + ManageSieve. PGP via gpg or local keys. Composer powered by
+              hjkl.
             </p>
             <div class="proj-links">
               <a href="https://inbx.kryptic.sh/">site →</a>
@@ -814,9 +822,11 @@
             </div>
             <p class="proj-tag">Light crypto wallet, TUI.</p>
             <p class="proj-desc">
-              ratatui UI, BIP-39 seed, BIP-32/44 derivation. Multi-chain
-              (Bitcoin, Ethereum). Light client — talks to public or self-hosted
-              RPC. Local keys, encrypted at rest. Never phones home.
+              ratatui UI, BIP-39 seed, BIP-32/44 derivation. Bitcoin · ETH · BSC
+              · Monero · NavCoin · LTC · DOGE · BCH. ERC-20 token reads on
+              Ethereum + BSC. Optional OS-keyring vault auto-unlock. TOFU cert
+              pinning on every Electrum endpoint. Local keys, encrypted at rest.
+              Never phones home.
             </p>
             <div class="proj-links">
               <a href="https://hodl.kryptic.sh/">site →</a>
