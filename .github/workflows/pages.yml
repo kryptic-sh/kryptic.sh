@@ -1,10 +1,13 @@
 name: Pages
 
 # GitHub Pages deploy for the kryptic.sh org landing page. The site
-# advertises five sibling projects (sqeel, buffr, hjkl, inbx, hodl)
+# advertises six sibling projects (sqeel, buffr, hjkl, inbx, hodl, pikr)
 # with their currently-released versions. Each version slot uses an
-# `__VER_<NAME>__` placeholder which this workflow substitutes with
-# the latest matching git tag fetched via the GitHub API.
+# `__VER_<NAME>__` placeholder which this workflow substitutes with the
+# latest matching git tag fetched via the GitHub API, left-aligned and
+# space-padded to a fixed 12-char width (matching the placeholder length)
+# so the rendered `ls -la` column stays aligned regardless of
+# version-string length.
 #
 # Triggers:
 #   - daily cron (06:00 UTC) → catches releases cut elsewhere
@@ -82,13 +85,26 @@ jobs:
       - name: Substitute version placeholders
         run: |
           set -euo pipefail
+          # Left-align + space-pad every version to a uniform 13-char
+          # width (with "v" prefix). 4-letter placeholders (`__VER_HJKL__`
+          # = 12 chars) get +1 char in their slot, but the source HTML
+          # already compensates by padding their descriptions one char
+          # shorter — net result: every line ends at the same column
+          # regardless of version-string length.
+          pad() { printf '%-13s' "v$1"; }
+          sqeel_p=$(pad "${{ steps.tags.outputs.sqeel }}")
+          buffr_p=$(pad "${{ steps.tags.outputs.buffr }}")
+          hjkl_p=$(pad "${{ steps.tags.outputs.hjkl }}")
+          inbx_p=$(pad "${{ steps.tags.outputs.inbx }}")
+          hodl_p=$(pad "${{ steps.tags.outputs.hodl }}")
+          pikr_p=$(pad "${{ steps.tags.outputs.pikr }}")
           sed -i \
-            -e "s/__VER_SQEEL__/${{ steps.tags.outputs.sqeel }}/g" \
-            -e "s/__VER_BUFFR__/${{ steps.tags.outputs.buffr }}/g" \
-            -e "s/__VER_HJKL__/${{ steps.tags.outputs.hjkl }}/g" \
-            -e "s/__VER_INBX__/${{ steps.tags.outputs.inbx }}/g" \
-            -e "s/__VER_HODL__/${{ steps.tags.outputs.hodl }}/g" \
-            -e "s/__VER_PIKR__/${{ steps.tags.outputs.pikr }}/g" \
+            -e "s/__VER_SQEEL__/$sqeel_p/g" \
+            -e "s/__VER_BUFFR__/$buffr_p/g" \
+            -e "s/__VER_HJKL__/$hjkl_p/g" \
+            -e "s/__VER_INBX__/$inbx_p/g" \
+            -e "s/__VER_HODL__/$hodl_p/g" \
+            -e "s/__VER_PIKR__/$pikr_p/g" \
             index.html
           if grep -q "__VER_" index.html; then
             echo "::error::Stale __VER_*__ markers remain in index.html"
